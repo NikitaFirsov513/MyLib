@@ -1,0 +1,53 @@
+.header {
+    width: 100%;
+
+    &__container {
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    display: flex;
+    align-items: center;
+    background-color: #1c1e1f;
+    height: 70px;
+    &__left {
+        display: flex;
+        align-items: center;
+        margin-left: 60px;
+        gap: 20px;
+    }
+    &__right {
+        display: flex;
+        align-items: center;
+        margin-right: 87px;
+        gap: 20px;
+        & svg {
+            width: 40px;
+            height: 40px;
+            color: #ffffff;
+        }
+    }
+    &__logo {
+        display: flex;
+        align-items: center;
+        & svg {
+            width: 40px;
+            height: 40px;
+            color: #ffffff;
+        }
+        & p {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 27px;
+            line-height: 32px;
+            color: #ffffff;
+        }
+    }
+    &__icon {
+        margin-left: 14px;
+        height: auto;
+        width: 24px;
+        color: #ffffff;
+    }
+}

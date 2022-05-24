@@ -1,0 +1,16 @@
+@import "./colorsAndFonts.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "GothamPro";
+//    color: #ffffff;
+}
+body {
+    background-color: #181a1c;
+    min-width: 460px;
+}
+
+a {
+    text-decoration: none;
+}
