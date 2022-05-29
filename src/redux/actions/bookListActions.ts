@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { bookList } from "../../data/BookList";
+import { bookList, TBookList } from "../../data/BookList";
 
 
 
@@ -12,14 +12,22 @@ export const setBookList = createAsyncThunk(
     BookListActions.SET_BOOK_LIST,
 
     async function () {
+        
+        let req
+        while (1) {
+            req = await fetch(`http://localhost/MyLib/hs/v1/allbook`, { method: 'GET', });
 
-        await setTimeout(() => { }, 3000)
+            if (req.ok) {
+                break;
+            }
+        }
+        if (req !== undefined) {
 
-        return Promise.resolve(bookList);
-        /*let req = await fetch(`http://localhost:80/digital/hs/category/all`, { method: 'GET', });
-        req = await req.json();
-        return req;*/
-        // await setTimeout(()=>{return true},5000)
+            const data: TBookList | undefined = await req.json();
+            if (data !== undefined)
+                return data;
+        }
 
+        
     })
 

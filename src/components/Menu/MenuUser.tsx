@@ -10,7 +10,11 @@ import HistoryIcon from '@mui/icons-material/History';
 import { Link } from "react-router-dom";
 import './MenuUser.scss';
 import Avatar from '@mui/material/Avatar';
-
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import { Box, SwipeableDrawer } from "@mui/material";
+import History from "../History/History";
+import { logout } from "../../redux/reducers/userReducer";
+import { RootState } from "../../redux/store/store";
 
 
 
@@ -18,8 +22,11 @@ export default function MenuUser() {
 
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const [propState, setPropState] = useState(false);
 
+    const open = Boolean(anchorEl);
+    const dispatch = useDispatch();
+    const userData = useSelector((state: RootState) => state.user.userData)
 
     const handleClick = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -27,6 +34,26 @@ export default function MenuUser() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const toggle = (open: boolean) => {
+        setPropState(open);
+    }
+    const toggleDrawer = (open: boolean) =>
+        (event: React.KeyboardEvent | React.MouseEvent) => {
+            if (
+                event &&
+                event.type === 'keydown' &&
+                ((event as React.KeyboardEvent).key === 'Tab' ||
+                    (event as React.KeyboardEvent).key === 'Shift')
+            ) {
+                return;
+            }
+
+            setPropState(open);
+        };
+    const handleLogout = () => {
+        dispatch(logout("any"));
+    };
+
 
 
 
@@ -35,7 +62,14 @@ export default function MenuUser() {
         <>
 
             <Button onClick={handleClick} sx={{ color: "#ffffff" }} variant="text">
-                <Avatar sx={{ bgcolor: "#FFFFFF", color: "#1C1E1F" }}>N</Avatar>
+
+                {userData !== null
+                    ?
+                    <Avatar
+                        sx={{ bgcolor: "#FFFFFF", color: "#1C1E1F" }}
+                    >{userData.name[0] + userData.surname[0]}</Avatar>
+                    :
+                    <></>}
             </Button>
 
             <Menu
@@ -74,14 +108,31 @@ export default function MenuUser() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                
+                <MenuItem onClick={e => toggle(true)}>
+                    <ListItemIcon>
+                        <CollectionsBookmarkIcon fontSize="small" />
+                    </ListItemIcon>
+                    <p>Ваши книги</p>
+                </MenuItem>
                 <Divider />
-                <MenuItem >
+                <MenuItem onClick={e => handleLogout()}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    <p>Logout</p>
+                    <p>Выход</p>
                 </MenuItem>
             </Menu>
+            <SwipeableDrawer
+                anchor={"right"}
+                open={propState}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+            >
+                <Box sx={{ width: "340px" }}>
+                    <History />
+                </Box>
+
+
+            </SwipeableDrawer>
         </>)
 }

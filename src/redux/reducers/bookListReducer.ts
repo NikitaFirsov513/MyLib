@@ -8,10 +8,8 @@ import { setBookList } from "../actions/bookListActions";
 export type TBookListReducer = {
     bookList: TBookList,
     bookListAfterParams: TBookList,
-    ganreList: string[],
-
+    ganreList: string[]
     activeGanreList: string[],
-
 }
 
 const initialState: TBookListReducer = {
@@ -95,27 +93,21 @@ export const bookListSlice = createSlice({
     extraReducers: (builder) => {
 
         builder.addCase(setBookList.fulfilled, (state, actions) => {
-            state.bookList = actions.payload;
-            state.bookListAfterParams = actions.payload;
+
+
             const bookList = actions.payload;
+            if (bookList === undefined)
+                return;
+            state.bookList = bookList;
+            state.bookListAfterParams = bookList;
+
             let ganreList: string[] = [];
             bookList.forEach(element => {
-
-
                 element.genre.split("/").forEach((elem) => {
+                    const isFindValue = ganreList.find((el) => elem.trim() === el.trim());
+                    if (!isFindValue && elem !== "" && elem !== " ")
+                        ganreList.push(elem.trim());
 
-
-
-                    const isFindValue = ganreList.find((el) => elem === el);
-                    if (!isFindValue && elem !== "")
-                        ganreList.push(elem);
-
-                    /* 
-                     console.group();
-                     console.log(elem);
-                     console.log(ganreList);
-                     console.log(isFindValue);
-                     console.groupEnd();*/
                 })
 
 

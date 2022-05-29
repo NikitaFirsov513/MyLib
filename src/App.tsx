@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setBookList } from './redux/actions/bookListActions';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
+import Auth from './components/Auth/Auth';
 
 
 function App() {
@@ -17,8 +18,8 @@ function App() {
   return (
     <>
       <Header />
+      <Auth />
       <Routes>
-
         <Route path='/' element={<HomePage />} />
       </Routes>
     </>
